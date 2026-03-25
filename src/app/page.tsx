@@ -1,101 +1,171 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { SearchBar } from "@/components/ui/SearchBar";
+
+export default function LandingPage() {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+
+  function handleSearch(query: string) {
+    setLoading(true);
+    router.push(`/results?q=${encodeURIComponent(query)}`);
+  }
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <div className="min-h-screen bg-bg">
+      <header>
+        <nav className="flex items-center justify-between px-6 h-16 max-w-6xl mx-auto animate-fade-in" aria-label="Main navigation">
+          <span className="text-xl font-bold text-text-primary tracking-tight">
+            BrandScout
+          </span>
+          <div className="flex items-center gap-4">
+            <a
+              href="/login"
+              className="text-sm font-medium text-text-secondary hover:text-text-primary transition-colors duration-fast"
+            >
+              Log in
+            </a>
+            <a
+              href="/signup"
+              className="text-sm font-medium text-white bg-primary hover:bg-primary-hover active:scale-[0.98] px-4 py-2 rounded-md transition-all duration-fast"
+            >
+              Sign up free
+            </a>
+          </div>
+        </nav>
+      </header>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+      <main>
+        {/* Hero */}
+        <section className="pt-24 pb-20 px-6 text-center bg-surface">
+          <h1 className="text-[28px] font-bold tracking-[-0.02em] text-text-primary mb-3 max-w-2xl mx-auto animate-fade-in-up">
+            Know the moment your brand hits the press
+          </h1>
+        <p className="text-[15px] text-text-secondary leading-relaxed mb-8 max-w-lg mx-auto animate-fade-in-up stagger-1">
+          Track news mentions, score sentiment, compare competitors. Free to
+          start.
+        </p>
+        <div className="flex justify-center animate-fade-in-up stagger-2">
+          <SearchBar
+            placeholder="Enter a brand or company name..."
+            onSearch={handleSearch}
+            loading={loading}
+          />
         </div>
+      </section>
+
+        {/* Features */}
+        <section className="py-16 px-6 max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 animate-fade-in-up stagger-3">
+          <FeatureColumn
+            icon={
+              <svg
+                className="w-6 h-6 text-primary"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={1.5}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 01-2.25 2.25M16.5 7.5V18a2.25 2.25 0 002.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 002.25 2.25h13.5M6 7.5h3v3H6v-3z"
+                />
+              </svg>
+            }
+            title="Real-Time News Feed"
+            description="Articles from hundreds of global sources, updated every 8 hours."
+          />
+          <FeatureColumn
+            icon={
+              <svg
+                className="w-6 h-6 text-primary"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={1.5}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456z"
+                />
+              </svg>
+            }
+            title="AI Sentiment Scoring"
+            description="Every article scored as positive, neutral, or negative with confidence levels."
+          />
+          <FeatureColumn
+            icon={
+              <svg
+                className="w-6 h-6 text-primary"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={1.5}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5"
+                />
+              </svg>
+            }
+            title="Competitor Comparison"
+            description="Side-by-side press intelligence for your brand and up to 2 competitors."
+          />
+        </div>
+      </section>
+
+        {/* Social Proof */}
+        <section className="pb-16 px-6 text-center">
+          <p className="text-[12px] font-medium text-text-secondary uppercase tracking-[0.02em]">
+            Trusted by 200+ indie founders and marketing teams
+          </p>
+        </section>
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+
+      <footer className="border-t border-border py-8 px-6">
+        <div className="max-w-4xl mx-auto flex items-center justify-between text-sm text-text-secondary">
+          <span>BrandScout</span>
+          <div className="flex gap-6">
+            <a href="/login" className="hover:text-text-primary transition-colors duration-fast">
+              Log in
+            </a>
+            <a href="/signup" className="hover:text-text-primary transition-colors duration-fast">
+              Sign up
+            </a>
+          </div>
+        </div>
       </footer>
+    </div>
+  );
+}
+
+function FeatureColumn({
+  icon,
+  title,
+  description,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+}) {
+  return (
+    <div className="text-center">
+      <div className="flex justify-center mb-4">
+        <div className="w-11 h-11 rounded-lg bg-primary/5 flex items-center justify-center">
+          {icon}
+        </div>
+      </div>
+      <h3 className="text-[18px] font-semibold tracking-[-0.01em] text-text-primary mb-1.5">
+        {title}
+      </h3>
+      <p className="text-[15px] text-text-secondary leading-relaxed">
+        {description}
+      </p>
     </div>
   );
 }
